@@ -1,10 +1,15 @@
+using APIDemo.Data;
 using APIDemo.Services;
 using APIDemo.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Invalid connection string!";
 
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+
+// Add services to the container.
 builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddControllers();
