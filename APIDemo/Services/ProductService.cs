@@ -1,4 +1,5 @@
-﻿using APIDemo.DTOs;
+﻿using APIDemo.Data;
+using APIDemo.DTOs;
 using APIDemo.Models;
 using APIDemo.Services.Interfaces;
 
@@ -6,14 +7,14 @@ namespace APIDemo.Services
 {
     public class ProductService : IProductService
     {
-        private static readonly List<Product> products =
-            [
-                new Product(){ Id = 1, Name = "Pizza", Price = 21.99M},
-                new Product(){ Id = 2, Name = "Noodle Soup", Price = 13.99M},
-                new Product(){ Id = 3, Name = "Grilled Salmon", Price = 25.99M},
-                new Product(){ Id = 4, Name = "Grilled Chicken", Price = 14.99M},
-                new Product(){ Id = 5, Name = "Pasta Carbonara", Price = 19.99M},
-            ];
+        private readonly ApplicationDbContext context;
+
+        public ProductService(ApplicationDbContext _context)
+        {
+                context = _context;
+        }
+
+
         public ProductDto Create(CreateProductDto model)
         {
             var product = new Product()
@@ -22,7 +23,8 @@ namespace APIDemo.Services
                 Price = model.Price
             };
 
-            products.Add(product);
+            context.Add(product);
+            context.SaveChangesAsync();
 
             return new ProductDto()
             {
@@ -33,7 +35,7 @@ namespace APIDemo.Services
 
         public IEnumerable<ProductDto> GetAll()
         {
-            return products.Select(p => new ProductDto
+            return context.Products.Select(p => new ProductDto
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -43,7 +45,7 @@ namespace APIDemo.Services
 
         public ProductDto? GetById(int id)
         {
-            var product = products.FirstOrDefault(p => p.Id == id);
+            var product = context.Products.FirstOrDefault(p => p.Id == id);
 
             if (product == null)
             {
