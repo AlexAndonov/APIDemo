@@ -1,6 +1,10 @@
 @APIDemo_HostAddress = http://localhost:5271
 
-GET {{APIDemo_HostAddress}}/weatherforecast/
+POST {{APIDemo_HostAddress}}/api/products
+Content-Type: application/json
 Accept: application/json
-
+{
+  "name":"Burger",
+  "price": 14.99
+}
 ###

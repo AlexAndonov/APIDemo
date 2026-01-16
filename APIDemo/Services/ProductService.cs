@@ -24,10 +24,11 @@ namespace APIDemo.Services
             };
 
             context.Add(product);
-            context.SaveChangesAsync();
+            context.SaveChanges();
 
             return new ProductDto()
             {
+                Id = product.Id,
                 Name = product.Name,
                 Price = product.Price
             };
