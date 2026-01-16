@@ -44,5 +44,31 @@ namespace APIDemo.Controllers
 
             return CreatedAtAction(nameof(GetById), new {Id = product.Id}, product);
         }
+
+        [HttpPut]
+        public ActionResult<ProductDto> Update(int id, CreateProductDto model)
+        {
+            var product = service.Update(id, model);
+
+            if(product == null)
+            {
+                return NotFound(); //This returns 404 Not Found if the product doesn't exist or the ID is wrong
+            }
+
+            return Ok(product); //This returs status code 200 with the update product!
+        }
+
+        [HttpDelete]
+        public ActionResult Delete(int id)
+        {
+            var result = service.Delete(id);
+
+            if (result == false)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
     }
 }

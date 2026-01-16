@@ -7,5 +7,7 @@ namespace APIDemo.Services.Interfaces
 		IEnumerable<ProductDto> GetAll();
 		ProductDto? GetById(int id);
 		ProductDto Create(CreateProductDto model);
+		ProductDto? Update(int id,CreateProductDto model);
+		bool Delete(int id);
 	}
 }

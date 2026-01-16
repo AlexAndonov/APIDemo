@@ -2,6 +2,7 @@
 using APIDemo.DTOs;
 using APIDemo.Models;
 using APIDemo.Services.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace APIDemo.Services
 {
@@ -34,6 +35,21 @@ namespace APIDemo.Services
             };
         }
 
+        public bool Delete(int id)
+        {
+            var product = context.Products.Find(id);
+
+            if (product == null)
+            {
+                return false;
+            }
+
+            context.Remove(product);
+            context.SaveChanges();
+
+            return true;
+        }
+
         public IEnumerable<ProductDto> GetAll()
         {
             return context.Products.Select(p => new ProductDto
@@ -46,7 +62,7 @@ namespace APIDemo.Services
 
         public ProductDto? GetById(int id)
         {
-            var product = context.Products.FirstOrDefault(p => p.Id == id);
+            var product = context.Products.Find(id);
 
             if (product == null)
             {
@@ -54,6 +70,28 @@ namespace APIDemo.Services
             }
 
             return new ProductDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price
+            };
+        }
+
+        public ProductDto? Update(int id, CreateProductDto model)
+        {
+            var product = context.Products.Find(id);
+
+            if (product == null)
+            {
+                return null;
+            }
+
+            product.Name = model.Name;
+            product.Price = model.Price;
+
+            context.SaveChanges();
+
+            return new ProductDto()
             {
                 Id = product.Id,
                 Name = product.Name,
