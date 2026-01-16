@@ -14,7 +14,7 @@ namespace APIDemo.Services
                 new Product(){ Id = 4, Name = "Grilled Chicken", Price = 14.99M},
                 new Product(){ Id = 5, Name = "Pasta Carbonara", Price = 19.99M},
             ];
-        public ProductDTO Create(CreateProductDTO model)
+        public ProductDto Create(CreateProductDto model)
         {
             var product = new Product()
             {
@@ -24,16 +24,16 @@ namespace APIDemo.Services
 
             products.Add(product);
 
-            return new ProductDTO()
+            return new ProductDto()
             {
                 Name = product.Name,
                 Price = product.Price
             };
         }
 
-        public IEnumerable<ProductDTO> GetAll()
+        public IEnumerable<ProductDto> GetAll()
         {
-            return products.Select(p => new ProductDTO
+            return products.Select(p => new ProductDto
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -41,15 +41,21 @@ namespace APIDemo.Services
             });
         }
 
-        public ProductDTO? GetById(int id)
+        public ProductDto? GetById(int id)
         {
-            return products.Select(p => new ProductDTO
+            var product = products.FirstOrDefault(p => p.Id == id);
+
+            if (product == null)
             {
-                Id = p.Id,
-                Name = p.Name,
-                Price = p.Price,
-            })
-            .FirstOrDefault();
+                return null;
+            }
+
+            return new ProductDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price
+            };
         }
     }
 }
