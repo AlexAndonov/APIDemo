@@ -4,51 +4,52 @@ using APIDemo.Services.Interfaces;
 
 namespace APIDemo.Services
 {
-	public class ProductService : IProductService
-	{
-		private static readonly List<Product> products = [];
-		public ProductDTO Create(CreateProductDTO model)
-		{
-			var product = new Product()
-			{
-				Id = Guid.NewGuid(),
-				Name = model.Name,
-				Description = model.Description,
-				Price = model.Price
-			};
+    public class ProductService : IProductService
+    {
+        private static readonly List<Product> products =
+            [
+                new Product(){ Id = 1, Name = "Pizza", Price = 21.99M},
+                new Product(){ Id = 2, Name = "Noodle Soup", Price = 13.99M},
+                new Product(){ Id = 3, Name = "Grilled Salmon", Price = 25.99M},
+                new Product(){ Id = 4, Name = "Grilled Chicken", Price = 14.99M},
+                new Product(){ Id = 5, Name = "Pasta Carbonara", Price = 19.99M},
+            ];
+        public ProductDTO Create(CreateProductDTO model)
+        {
+            var product = new Product()
+            {
+                Name = model.Name,
+                Price = model.Price
+            };
 
-			products.Add(product);
+            products.Add(product);
 
-			return new ProductDTO()
-			{
-				Id = product.Id,
-				Name = product.Name,
-				Description = product.Description,
-				Price = product.Price
-			};
-		}
+            return new ProductDTO()
+            {
+                Name = product.Name,
+                Price = product.Price
+            };
+        }
 
-		public IEnumerable<ProductDTO> GetAll()
-		{
-			return products.Select(p => new ProductDTO
-			{
-				Id = p.Id,
-				Name = p.Name,
-				Description = p.Description,
-				Price = p.Price,
-			});
-		}
+        public IEnumerable<ProductDTO> GetAll()
+        {
+            return products.Select(p => new ProductDTO
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price,
+            });
+        }
 
-		public ProductDTO? GetById(Guid id)
-		{
-			return products.Select(p => new ProductDTO
-			{
-				Id = p.Id,
-				Name = p.Name,
-				Description = p.Description,
-				Price = p.Price,
-			})
-			.FirstOrDefault();
-		}
-	}
+        public ProductDTO? GetById(int id)
+        {
+            return products.Select(p => new ProductDTO
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price,
+            })
+            .FirstOrDefault();
+        }
+    }
 }
