@@ -58,6 +58,19 @@ namespace APIDemo.Controllers
             return Ok(product); //This returs status code 200 with the update product!
         }
 
+        [HttpPatch]
+        public ActionResult<ProductDto> Patch(int id, PatchProductDto model)
+        {
+            var product = service.Patch(id, model);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(product);
+        }
+
         [HttpDelete]
         public ActionResult Delete(int id)
         {
