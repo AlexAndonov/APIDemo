@@ -77,6 +77,36 @@ namespace APIDemo.Services
             };
         }
 
+        public ProductDto? Patch(int id, PatchProductDto model)
+        {
+            var product = context.Products.Find(id);
+
+            if (product == null)
+            {
+                return null;
+            }
+
+            if (model.Name != null)
+            {
+                product.Name = model.Name;
+            }
+
+            if (model.Price.HasValue)
+            {
+                product.Price = model.Price.Value;
+            }
+
+            context.SaveChanges();
+
+            return new ProductDto()
+            {
+
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price
+            };
+        }
+        
         public ProductDto? Update(int id, CreateProductDto model)
         {
             var product = context.Products.Find(id);

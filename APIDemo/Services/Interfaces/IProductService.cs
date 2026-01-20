@@ -9,5 +9,6 @@ namespace APIDemo.Services.Interfaces
 		ProductDto Create(CreateProductDto model);
 		ProductDto? Update(int id,CreateProductDto model);
 		bool Delete(int id);
+		ProductDto? Patch(int id, PatchProductDto model);
 	}
 }
