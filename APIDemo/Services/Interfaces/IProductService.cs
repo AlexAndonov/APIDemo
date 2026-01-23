@@ -4,11 +4,11 @@ namespace APIDemo.Services.Interfaces
 {
 	public interface IProductService
 	{
-		IEnumerable<ProductDto> GetAll();
-		ProductDto? GetById(int id);
-		ProductDto Create(CreateProductDto model);
-		ProductDto? Update(int id,CreateProductDto model);
-		bool Delete(int id);
-		ProductDto? Patch(int id, PatchProductDto model);
+		Task<IEnumerable<ProductResponse>> GetAllAsync();
+		Task<ProductResponse?> GetByIdAsync(int id);
+		Task<ProductResponse> CreateAsync(ProductCreateRequest model);
+		Task<ProductResponse?> UpdateAsync(int id,ProductCreateRequest model);
+		Task<ProductResponse?> PatchAsync(int id, ProductPatchRequest model);
+		Task<bool> DeleteAsync(int id);
 	}
 }

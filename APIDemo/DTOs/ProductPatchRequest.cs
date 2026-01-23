@@ -1,6 +1,6 @@
 ﻿namespace APIDemo.DTOs
 {
-    public class PatchProductDto
+    public class ProductPatchRequest
     {
         public string? Name { get; set; }
         public decimal? Price { get; set; }

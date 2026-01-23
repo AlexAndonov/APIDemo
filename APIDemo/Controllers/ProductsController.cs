@@ -16,18 +16,18 @@ namespace APIDemo.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ProductDto>> GetAll()
+        public async Task<ActionResult<IEnumerable<ProductResponse>>> GetAll()
         {
-            var products = service.GetAll();
+            var products = await service.GetAllAsync();
 
             return Ok(products); // This should return status code 200 with all the products.
         }
 
 
-        [HttpGet("{id}")]
-        public ActionResult<ProductDto> GetById(int id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<ProductResponse>> GetById(int id)
         {
-            var product = service.GetById(id);
+            var product = await service.GetByIdAsync(id);
 
             if (product == null)
             {
@@ -38,17 +38,17 @@ namespace APIDemo.Controllers
         }
 
         [HttpPost]
-        public ActionResult<ProductDto> Create(CreateProductDto model)
+        public async Task<ActionResult<ProductResponse>> Create(ProductCreateRequest model)
         {
-            var product = service.Create(model);
+            var product = await service.CreateAsync(model);
 
             return CreatedAtAction(nameof(GetById), new {Id = product.Id}, product);
         }
 
         [HttpPut]
-        public ActionResult<ProductDto> Update(int id, CreateProductDto model)
+        public async Task<ActionResult<ProductResponse>> Update(int id, ProductCreateRequest model)
         {
-            var product = service.Update(id, model);
+            var product = await service.UpdateAsync(id, model);
 
             if(product == null)
             {
@@ -59,9 +59,9 @@ namespace APIDemo.Controllers
         }
 
         [HttpPatch]
-        public ActionResult<ProductDto> Patch(int id, PatchProductDto model)
+        public async Task<ActionResult<ProductResponse>> Patch(int id, ProductPatchRequest model)
         {
-            var product = service.Patch(id, model);
+            var product = await service.PatchAsync(id, model);
 
             if (product == null)
             {
@@ -72,9 +72,9 @@ namespace APIDemo.Controllers
         }
 
         [HttpDelete]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var result = service.Delete(id);
+            var result = await service.Delete(id);
 
             if (result == false)
             {

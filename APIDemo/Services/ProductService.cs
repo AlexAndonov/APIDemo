@@ -16,7 +16,7 @@ namespace APIDemo.Services
         }
 
 
-        public ProductDto Create(CreateProductDto model)
+        public async Task<ProductResponse> CreateAsync(ProductCreateRequest model)
         {
             var product = new Product()
             {
@@ -25,9 +25,9 @@ namespace APIDemo.Services
             };
 
             context.Add(product);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
-            return new ProductDto()
+            return new ProductResponse()
             {
                 Id = product.Id,
                 Name = product.Name,
@@ -35,9 +35,9 @@ namespace APIDemo.Services
             };
         }
 
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var product = context.Products.Find(id);
+            var product = await context.Products.FindAsync(id);
 
             if (product == null)
             {
@@ -45,14 +45,14 @@ namespace APIDemo.Services
             }
 
             context.Remove(product);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return true;
         }
 
-        public IEnumerable<ProductDto> GetAll()
+        public async Task<IEnumerable<ProductResponse>> GetAllAsync()
         {
-            return context.Products.Select(p => new ProductDto
+            return context.Products.Select(p => new ProductResponse
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -60,16 +60,16 @@ namespace APIDemo.Services
             });
         }
 
-        public ProductDto? GetById(int id)
+        public async Task<ProductResponse?> GetByIdAsync(int id)
         {
-            var product = context.Products.Find(id);
+            var product = await context.Products.FindAsync(id);
 
             if (product == null)
             {
                 return null;
             }
 
-            return new ProductDto
+            return new ProductResponse
             {
                 Id = product.Id,
                 Name = product.Name,
@@ -77,9 +77,9 @@ namespace APIDemo.Services
             };
         }
 
-        public ProductDto? Patch(int id, PatchProductDto model)
+        public async Task<ProductResponse?> PatchAsync(int id, ProductPatchRequest model)
         {
-            var product = context.Products.Find(id);
+            var product = await context.Products.FindAsync(id);
 
             if (product == null)
             {
@@ -96,9 +96,9 @@ namespace APIDemo.Services
                 product.Price = model.Price.Value;
             }
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
-            return new ProductDto()
+            return new ProductResponse()
             {
 
                 Id = product.Id,
@@ -107,9 +107,9 @@ namespace APIDemo.Services
             };
         }
         
-        public ProductDto? Update(int id, CreateProductDto model)
+        public async Task<ProductResponse?> UpdateAsync(int id, ProductCreateRequest model)
         {
-            var product = context.Products.Find(id);
+            var product = await context.Products.FindAsync(id);
 
             if (product == null)
             {
@@ -119,9 +119,9 @@ namespace APIDemo.Services
             product.Name = model.Name;
             product.Price = model.Price;
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
-            return new ProductDto()
+            return new ProductResponse()
             {
                 Id = product.Id,
                 Name = product.Name,
