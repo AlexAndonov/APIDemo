@@ -74,7 +74,7 @@ namespace APIDemo.Controllers
         [HttpDelete]
         public async Task<ActionResult> Delete(int id)
         {
-            var result = await service.Delete(id);
+            var result = await service.DeleteAsync(id);
 
             if (result == false)
             {
